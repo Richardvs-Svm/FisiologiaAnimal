@@ -6,6 +6,22 @@ The activity focuses primarily on **Bloom's Taxonomy Level 1: Remembering**. Stu
 
 The crossword and its clues are presented in Spanish. The current version was prepared for **Fisiología de Animales 2027-1, Grupo 5417**.
 
+## Original crossword and acknowledgements
+
+The original printable crossword was generated with [EclipseCrossword](https://www.eclipsecrossword.com/). The grid, answers, and clues were subsequently adapted into this interactive web version.
+
+EclipseCrossword is credited as the tool used to create the original puzzle. This project is not affiliated with or endorsed by EclipseCrossword.
+
+## Licence
+
+This project's original code and educational content are released under the **MIT Licence**.
+
+Anyone may use, copy, modify, merge, publish, distribute, sublicense, or sell copies of this project, including for commercial purposes, provided that the copyright and licence notice are retained. The project is provided without warranty.
+
+You are welcome to translate it, change the subject, replace the crossword, modify the visual design, or incorporate the code into another educational resource.
+
+Third-party names and software, including EclipseCrossword, remain subject to their respective owners' terms and trademarks.
+
 ## Who is it for?
 
 This activity is intended for:
@@ -95,18 +111,4 @@ Teachers may edit these entries to revise terminology or clues. Creating an enti
 
 The scoring limits can be adjusted in the `revealLimitFor` function, and the initial score is controlled by the `MAX_SCORE` value.
 
-## Original crossword and acknowledgements
 
-The original printable crossword was generated with [EclipseCrossword](https://www.eclipsecrossword.com/). The grid, answers, and clues were subsequently adapted into this interactive web version.
-
-EclipseCrossword is credited as the tool used to create the original puzzle. This project is not affiliated with or endorsed by EclipseCrossword.
-
-## Licence
-
-This project's original code and educational content are released under the **MIT Licence**.
-
-Anyone may use, copy, modify, merge, publish, distribute, sublicense, or sell copies of this project, including for commercial purposes, provided that the copyright and licence notice are retained. The project is provided without warranty.
-
-You are welcome to translate it, change the subject, replace the crossword, modify the visual design, or incorporate the code into another educational resource.
-
-Third-party names and software, including EclipseCrossword, remain subject to their respective owners' terms and trademarks.
