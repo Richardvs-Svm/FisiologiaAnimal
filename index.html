@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#102a43" />
+    <meta
+      name="description"
+      content="Crucigrama interactivo del Tema 1: Principios generales de Fisiología de Animales."
+    />
+    <meta property="og:title" content="Tema 1 · Principios generales" />
+    <meta
+      property="og:description"
+      content="Crucigrama interactivo de Fisiología de Animales 2027-1."
+    />
+    <title>Tema 1 · Principios generales</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#crucigrama">Saltar al crucigrama</a>
+
+    <header class="site-header">
+      <div class="header-inner">
+        <div>
+          <p class="eyebrow">Fisiología de Animales 2027-1 · Grupo 5417</p>
+          <h1>Tema 1 <span>Principios generales</span></h1>
+          <p class="intro">
+            Completa el crucigrama. Selecciona una casilla o una definición para comenzar.
+          </p>
+        </div>
+        <div class="practice-badge" aria-label="Actividad de práctica">
+          <span aria-hidden="true">✦</span>
+          Práctica interactiva
+        </div>
+      </div>
+    </header>
+
+    <main class="page-shell" id="crucigrama">
+      <section class="progress-card" aria-labelledby="progress-title">
+        <div>
+          <p class="section-label" id="progress-title">Tu avance</p>
+          <p class="progress-copy" id="progressCopy">0 de 159 casillas</p>
+        </div>
+        <div
+          class="progress-track"
+          role="progressbar"
+          aria-label="Progreso del crucigrama"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+          id="progressBar"
+        >
+          <span id="progressFill"></span>
+        </div>
+        <p class="save-note"><span aria-hidden="true">●</span> El avance se guarda en este dispositivo</p>
+      </section>
+
+      <div class="workspace">
+        <section class="board-card" aria-labelledby="board-title">
+          <div class="board-toolbar">
+            <div>
+              <p class="section-label">Crucigrama</p>
+              <h2 id="board-title">Selecciona una palabra</h2>
+            </div>
+            <div class="toolbar-actions">
+              <button class="quiet-button zoom-button" id="zoomButton" type="button">
+                Ampliar cuadrícula
+              </button>
+              <button class="quiet-button" id="printButton" type="button">Imprimir</button>
+              <button class="quiet-button danger" id="resetButton" type="button">Reiniciar</button>
+            </div>
+          </div>
+
+          <article class="selected-clue" aria-live="polite" aria-atomic="true">
+            <div class="selected-clue-heading">
+              <p id="selectedMeta">Selecciona una definición</p>
+              <span id="selectedLength"></span>
+            </div>
+            <p class="selected-clue-text" id="selectedClue">
+              Puedes empezar con cualquiera de las pistas horizontales o verticales.
+            </p>
+            <p class="concept-hint" id="conceptHint" hidden></p>
+            <div class="clue-actions">
+              <button class="primary-button" id="hintButton" type="button" disabled>
+                Pista conceptual
+              </button>
+              <button class="secondary-button" id="letterButton" type="button" disabled>
+                Revelar una letra
+              </button>
+              <button class="secondary-button" id="checkWordButton" type="button" disabled>
+                Comprobar palabra
+              </button>
+            </div>
+          </article>
+
+          <div class="grid-scroller" id="gridScroller">
+            <div
+              class="crossword-grid"
+              id="crosswordGrid"
+              role="group"
+              aria-label="Cuadrícula de crucigrama de 23 por 23"
+            ></div>
+          </div>
+
+          <div class="board-footer">
+            <p>
+              <strong>Consejo:</strong> toca dos veces una intersección para cambiar entre horizontal y
+              vertical. Escribe las respuestas sin espacios; los acentos son opcionales.
+            </p>
+            <button class="check-all-button" id="checkAllButton" type="button">
+              Comprobar todo
+            </button>
+          </div>
+        </section>
+
+        <aside class="clues-card" aria-labelledby="clues-title">
+          <div class="clues-heading">
+            <div>
+              <p class="section-label">Definiciones</p>
+              <h2 id="clues-title">Pistas</h2>
+            </div>
+            <p>19 términos</p>
+          </div>
+
+          <section aria-labelledby="across-title">
+            <h3 id="across-title">Horizontales</h3>
+            <div class="clue-list" id="acrossClues"></div>
+          </section>
+
+          <section aria-labelledby="down-title">
+            <h3 id="down-title">Verticales</h3>
+            <div class="clue-list" id="downClues"></div>
+          </section>
+
+          <details class="word-bank">
+            <summary>Banco de palabras</summary>
+            <div class="word-bank-list" id="wordBank"></div>
+          </details>
+        </aside>
+      </div>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+    <div class="completion" id="completion" role="dialog" aria-modal="true" aria-labelledby="completionTitle" hidden>
+      <div class="completion-card">
+        <div class="completion-mark" aria-hidden="true">✓</div>
+        <p class="section-label">Actividad completada</p>
+        <h2 id="completionTitle">¡Excelente trabajo!</h2>
+        <p>Has completado correctamente el crucigrama del Tema 1.</p>
+        <button class="primary-button" id="closeCompletion" type="button">Revisar mis respuestas</button>
+      </div>
+    </div>
+
+    <noscript>
+      <p class="noscript">Esta actividad necesita JavaScript para funcionar.</p>
+    </noscript>
+
+    <script src="script.js"></script>
+  </body>
+</html>
