@@ -8,7 +8,7 @@ The crossword and its clues are presented in Spanish. The current version was pr
 
 ## Original crossword and acknowledgements
 
-The original printable crossword was generated with [EclipseCrossword](https://www.eclipsecrossword.com/). The grid, answers, and clues were subsequently adapted into this interactive web version.
+The original printable crossword was generated with [EclipseCrossword](https://www.eclipsecrossword.com/). The grid, answers, and clues were subsequently adapted into this interactive web version using ChatGPT v5.6
 
 EclipseCrossword is credited as the tool used to create the original puzzle. This project is not affiliated with or endorsed by EclipseCrossword.
 
