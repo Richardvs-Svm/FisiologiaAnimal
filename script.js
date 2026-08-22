@@ -1,7 +1,8 @@
 "use strict";
 
 const GRID_SIZE = 23;
-const STORAGE_KEY = "fisiologia-tema1-crossword-v1";
+const STORAGE_KEY = "fisiologia-tema1-crossword-v2";
+const MAX_SCORE = 100;
 
 const entries = [
   {
@@ -230,17 +231,19 @@ const byId = new Map(entries.map((entry) => [entry.id, entry]));
 const cells = new Map();
 const values = new Map();
 const revealedCells = new Set();
+const revealCounts = new Map();
 const shownHints = new Set();
 let selectedEntryId = null;
 let selectedCellKey = null;
 let toastTimer = null;
+let studentName = "";
+let completionTimestamp = null;
 
 const elements = {
   grid: document.querySelector("#crosswordGrid"),
   gridScroller: document.querySelector("#gridScroller"),
   acrossClues: document.querySelector("#acrossClues"),
   downClues: document.querySelector("#downClues"),
-  wordBank: document.querySelector("#wordBank"),
   selectedMeta: document.querySelector("#selectedMeta"),
   selectedLength: document.querySelector("#selectedLength"),
   selectedClue: document.querySelector("#selectedClue"),
@@ -255,9 +258,16 @@ const elements = {
   progressCopy: document.querySelector("#progressCopy"),
   progressBar: document.querySelector("#progressBar"),
   progressFill: document.querySelector("#progressFill"),
+  scoreValue: document.querySelector("#scoreValue"),
   toast: document.querySelector("#toast"),
   completion: document.querySelector("#completion"),
   closeCompletion: document.querySelector("#closeCompletion"),
+  studentName: document.querySelector("#studentName"),
+  studentNamePrint: document.querySelector("#studentNamePrint"),
+  finalScore: document.querySelector("#finalScore"),
+  finalRevealCount: document.querySelector("#finalRevealCount"),
+  completedAt: document.querySelector("#completedAt"),
+  printProofButton: document.querySelector("#printProofButton"),
   boardTitle: document.querySelector("#board-title"),
 };
 
@@ -272,6 +282,18 @@ function entryCellKeys(entry) {
       entry.col + (entry.direction === "across" ? index : 0),
     ),
   );
+}
+
+function revealLimitFor(entry) {
+  return entry.answer.length > 8 ? 3 : 2;
+}
+
+function totalRevealsUsed() {
+  return [...revealCounts.values()].reduce((total, count) => total + count, 0);
+}
+
+function currentScore() {
+  return Math.max(0, MAX_SCORE - totalRevealsUsed());
 }
 
 function buildCellModel() {
@@ -362,18 +384,6 @@ function buildClueLists() {
   }
 }
 
-function buildWordBank() {
-  [...entries]
-    .sort((a, b) => a.displayAnswer.localeCompare(b.displayAnswer, "es"))
-    .forEach((entry) => {
-      const span = document.createElement("span");
-      span.className = "word-pill";
-      span.dataset.entryId = entry.id;
-      span.textContent = entry.displayAnswer;
-      elements.wordBank.append(span);
-    });
-}
-
 function normalizeLetters(text) {
   return text
     .toLocaleUpperCase("es-MX")
@@ -439,8 +449,19 @@ function updateSelection() {
   elements.selectedClue.textContent = entry.clue;
   elements.boardTitle.textContent = `${entry.number} ${directionName.toLowerCase()}`;
   elements.hintButton.disabled = false;
-  elements.letterButton.disabled = false;
   elements.checkWordButton.disabled = false;
+
+  const keys = entryCellKeys(entry);
+  const wordIsCorrect = keys.every((key, index) => values.get(key) === entry.answer[index]);
+  const revealLimit = revealLimitFor(entry);
+  const revealCount = revealCounts.get(entry.id) || 0;
+  const revealsRemaining = Math.max(0, revealLimit - revealCount);
+  elements.letterButton.disabled = wordIsCorrect || revealsRemaining === 0;
+  elements.letterButton.textContent = wordIsCorrect
+    ? "Palabra completa"
+    : revealsRemaining
+      ? `Revelar una letra · ${revealsRemaining} disponible${revealsRemaining === 1 ? "" : "s"}`
+      : "Sin letras disponibles";
 
   const hintIsShown = shownHints.has(entry.id);
   elements.conceptHint.hidden = !hintIsShown;
@@ -581,11 +602,22 @@ function toggleHint() {
 function revealLetter() {
   const entry = byId.get(selectedEntryId);
   if (!entry) return;
+  const revealLimit = revealLimitFor(entry);
+  const revealCount = revealCounts.get(entry.id) || 0;
+
+  if (revealCount >= revealLimit) {
+    showToast("Ya utilizaste todas las letras disponibles para esta palabra.");
+    updateSelection();
+    return;
+  }
+
   const keys = entryCellKeys(entry);
-  const candidates = keys.filter((key, index) => values.get(key) !== entry.answer[index]);
+  const candidates = keys.filter(
+    (key, index) => !revealedCells.has(key) && values.get(key) !== entry.answer[index],
+  );
 
   if (!candidates.length) {
-    showToast("Esta palabra ya está completa.");
+    showToast("Esta palabra ya está completa o sus letras disponibles ya fueron reveladas.");
     return;
   }
 
@@ -593,13 +625,17 @@ function revealLetter() {
   const chosenIndex = keys.indexOf(chosenKey);
   setCellValue(chosenKey, entry.answer[chosenIndex]);
   revealedCells.add(chosenKey);
+  revealCounts.set(entry.id, revealCount + 1);
   document.querySelector(`.cell[data-cell-key="${chosenKey}"]`)?.classList.add("is-revealed");
   selectedCellKey = chosenKey;
   saveState();
   updateProgress();
   updateSelection();
   focusSelectedCell();
-  showToast("Se reveló una letra. La marca dorada indica que fue una ayuda.");
+  const remaining = revealLimit - (revealCount + 1);
+  showToast(
+    `Se reveló una letra y el puntaje bajó a ${currentScore()}. ${remaining ? `Quedan ${remaining} para esta palabra.` : "No quedan más para esta palabra."}`,
+  );
   checkForCompletion();
 }
 
@@ -647,7 +683,17 @@ function updateProgress() {
   elements.progressCopy.textContent = `${filled} de ${cells.size} casillas`;
   elements.progressBar.setAttribute("aria-valuenow", String(percent));
   elements.progressFill.style.width = `${percent}%`;
+  updateScoreDisplay();
   updateClueStates();
+  if (selectedEntryId) updateSelection();
+}
+
+function updateScoreDisplay() {
+  const score = currentScore();
+  const reveals = totalRevealsUsed();
+  elements.scoreValue.textContent = String(score);
+  elements.finalScore.textContent = String(score);
+  elements.finalRevealCount.textContent = String(reveals);
 }
 
 function updateClueStates() {
@@ -655,7 +701,6 @@ function updateClueStates() {
     const keys = entryCellKeys(entry);
     const solved = keys.every((key, index) => values.get(key) === entry.answer[index]);
     document.querySelector(`.clue-item[data-entry-id="${entry.id}"]`)?.classList.toggle("solved", solved);
-    document.querySelector(`.word-pill[data-entry-id="${entry.id}"]`)?.classList.toggle("used", solved);
   });
 }
 
@@ -668,8 +713,14 @@ function checkForCompletion() {
 }
 
 function openCompletion() {
+  if (!completionTimestamp) {
+    completionTimestamp = new Date().toISOString();
+    saveState();
+  }
+  updateProofDetails();
   elements.completion.hidden = false;
-  elements.closeCompletion.focus();
+  if (studentName.trim()) elements.printProofButton.focus();
+  else elements.studentName.focus();
 }
 
 function closeCompletion() {
@@ -677,11 +728,47 @@ function closeCompletion() {
   focusSelectedCell();
 }
 
+function updateProofDetails() {
+  elements.studentName.value = studentName;
+  elements.studentNamePrint.textContent = studentName.trim()
+    ? `Estudiante: ${studentName.trim()}`
+    : "Estudiante: sin nombre";
+  elements.completedAt.textContent = completionTimestamp
+    ? new Intl.DateTimeFormat("es-MX", {
+        dateStyle: "medium",
+        timeStyle: "short",
+      }).format(new Date(completionTimestamp))
+    : "—";
+  updateScoreDisplay();
+}
+
+function updateStudentName(event) {
+  studentName = event.currentTarget.value;
+  elements.studentNamePrint.textContent = studentName.trim()
+    ? `Estudiante: ${studentName.trim()}`
+    : "Estudiante: sin nombre";
+  saveState();
+}
+
+function printProof() {
+  if (!studentName.trim()) {
+    showToast("Escribe el nombre del estudiante antes de imprimir el comprobante.");
+    elements.studentName.focus();
+    return;
+  }
+  document.body.classList.add("printing-proof");
+  window.print();
+  window.setTimeout(() => document.body.classList.remove("printing-proof"), 1000);
+}
+
 function saveState() {
   const state = {
     values: Object.fromEntries(values),
     revealedCells: [...revealedCells],
+    revealCounts: Object.fromEntries(revealCounts),
     shownHints: [...shownHints],
+    studentName,
+    completionTimestamp,
   };
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
@@ -695,9 +782,20 @@ function loadState() {
     (state.revealedCells || []).forEach((key) => {
       if (cells.has(key)) revealedCells.add(key);
     });
+    Object.entries(state.revealCounts || {}).forEach(([id, count]) => {
+      const entry = byId.get(id);
+      const numericCount = Number(count);
+      if (entry && Number.isInteger(numericCount) && numericCount >= 0) {
+        revealCounts.set(id, Math.min(numericCount, revealLimitFor(entry)));
+      }
+    });
     (state.shownHints || []).forEach((id) => {
       if (byId.has(id)) shownHints.add(id);
     });
+    studentName = typeof state.studentName === "string" ? state.studentName.slice(0, 80) : "";
+    if (typeof state.completionTimestamp === "string" && !Number.isNaN(Date.parse(state.completionTimestamp))) {
+      completionTimestamp = state.completionTimestamp;
+    }
   } catch {
     localStorage.removeItem(STORAGE_KEY);
   }
@@ -719,10 +817,14 @@ function resetPuzzle() {
 
   values.clear();
   revealedCells.clear();
+  revealCounts.clear();
   shownHints.clear();
   selectedEntryId = null;
   selectedCellKey = null;
+  studentName = "";
+  completionTimestamp = null;
   localStorage.removeItem(STORAGE_KEY);
+  localStorage.removeItem("fisiologia-tema1-crossword-v1");
 
   document.querySelectorAll(".cell-input").forEach((input) => {
     input.value = "";
@@ -739,7 +841,10 @@ function resetPuzzle() {
   elements.letterButton.disabled = true;
   elements.checkWordButton.disabled = true;
   elements.hintButton.textContent = "Pista conceptual";
+  elements.letterButton.textContent = "Revelar una letra · 0 disponibles";
   elements.boardTitle.textContent = "Selecciona una palabra";
+  elements.studentName.value = "";
+  elements.completion.hidden = true;
   updateProgress();
   showToast("El crucigrama se reinició.");
 }
@@ -776,6 +881,9 @@ function bindControls() {
   elements.printButton.addEventListener("click", () => window.print());
   elements.zoomButton.addEventListener("click", toggleZoom);
   elements.closeCompletion.addEventListener("click", closeCompletion);
+  elements.studentName.addEventListener("input", updateStudentName);
+  elements.printProofButton.addEventListener("click", printProof);
+  window.addEventListener("afterprint", () => document.body.classList.remove("printing-proof"));
   elements.completion.addEventListener("click", (event) => {
     if (event.target === elements.completion) closeCompletion();
   });
@@ -788,11 +896,14 @@ buildCellModel();
 loadState();
 buildGrid();
 buildClueLists();
-buildWordBank();
 applyLoadedState();
 bindControls();
 updateProgress();
 
 if (values.size) {
   selectEntry(entries.find((entry) => !entryCellKeys(entry).every((key) => values.get(key)))?.id || entries[0].id, false);
+}
+
+if (isPuzzleCorrect()) {
+  window.setTimeout(openCompletion, 0);
 }

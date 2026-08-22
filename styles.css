@@ -213,6 +213,47 @@ h1 span {
   font-size: 0.65rem;
 }
 
+.progress-summary {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.85rem;
+}
+
+.score-panel {
+  min-width: 86px;
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: baseline;
+  column-gap: 0.25rem;
+  padding: 0.48rem 0.7rem;
+  color: white;
+  background: var(--ink);
+  border-radius: 0.72rem;
+  text-align: right;
+}
+
+.score-panel span {
+  grid-column: 1 / -1;
+  color: #bcdcf5;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.score-panel strong {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.score-panel small {
+  color: #d9e8f3;
+  font-size: 0.63rem;
+  font-weight: 700;
+}
+
 .workspace {
   display: grid;
   grid-template-columns: minmax(0, 1.55fr) minmax(320px, 0.85fr);
@@ -421,7 +462,8 @@ button:disabled {
   position: absolute;
   right: 2px;
   bottom: 2px;
-  background: var(--gold);
+  background: #d92d20;
+  box-shadow: 0 0 0 1px white;
   border-radius: 50%;
   pointer-events: none;
 }
@@ -554,40 +596,6 @@ button:disabled {
   font-weight: 900;
 }
 
-.word-bank {
-  margin-top: 1.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--line);
-}
-
-.word-bank summary {
-  cursor: pointer;
-  color: var(--blue-dark);
-  font-weight: 850;
-}
-
-.word-bank-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  padding-top: 0.8rem;
-}
-
-.word-pill {
-  padding: 0.32rem 0.5rem;
-  color: var(--ink-soft);
-  background: #f0f4f7;
-  border-radius: 999px;
-  font-size: 0.68rem;
-  font-weight: 750;
-}
-
-.word-pill.used {
-  color: #47705e;
-  background: var(--green-pale);
-  text-decoration: line-through;
-}
-
 .toast {
   max-width: min(420px, calc(100% - 2rem));
   position: fixed;
@@ -612,6 +620,7 @@ button:disabled {
   padding: 1rem;
   background: rgba(16, 42, 67, 0.72);
   backdrop-filter: blur(6px);
+  overflow: auto;
 }
 
 .completion[hidden],
@@ -620,7 +629,7 @@ button:disabled {
 }
 
 .completion-card {
-  width: min(460px, 100%);
+  width: min(570px, 100%);
   padding: 2rem;
   background: white;
   border-radius: var(--radius);
@@ -638,6 +647,10 @@ button:disabled {
   color: var(--ink-soft);
 }
 
+.completion-copy {
+  margin-bottom: 1.25rem;
+}
+
 .completion-mark {
   width: 64px;
   height: 64px;
@@ -649,6 +662,82 @@ button:disabled {
   border-radius: 50%;
   font-size: 2rem;
   font-weight: 900;
+}
+
+.student-field {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0 0 1rem;
+  color: var(--ink);
+  text-align: left;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.student-field input {
+  width: 100%;
+  min-height: 44px;
+  padding: 0.65rem 0.75rem;
+  color: var(--ink);
+  background: white;
+  border: 1px solid #a9bdcd;
+  border-radius: 0.65rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.student-name-print {
+  display: none;
+}
+
+.proof-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.35fr;
+  gap: 0.65rem;
+  margin: 1rem 0;
+}
+
+.proof-summary > div {
+  min-width: 0;
+  display: grid;
+  align-content: center;
+  gap: 0.15rem;
+  padding: 0.8rem 0.55rem;
+  background: #f2f7fa;
+  border: 1px solid var(--line);
+  border-radius: 0.7rem;
+}
+
+.proof-summary span {
+  color: var(--ink-soft);
+  font-size: 0.67rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.proof-summary strong {
+  color: var(--ink);
+  font-size: 1.15rem;
+}
+
+#completedAt {
+  font-size: 0.78rem;
+  line-height: 1.3;
+}
+
+.proof-instruction {
+  margin: 0 0 1rem;
+  padding: 0.75rem;
+  background: #fff5d6;
+  border-radius: 0.65rem;
+  font-size: 0.78rem;
+}
+
+.completion-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.55rem;
 }
 
 .noscript {
@@ -703,6 +792,10 @@ button:disabled {
     grid-template-columns: 1fr;
     gap: 0.6rem;
     padding: 0.85rem 1rem;
+  }
+
+  .progress-summary {
+    justify-content: space-between;
   }
 
   .save-note {
@@ -769,6 +862,22 @@ button:disabled {
   .clues-card section + section {
     margin-top: 1rem;
   }
+
+  .proof-summary {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .proof-summary > div:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .completion-card {
+    padding: 1.25rem;
+  }
+
+  .completion-actions {
+    flex-direction: column;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -812,7 +921,6 @@ button:disabled {
   .toolbar-actions,
   .board-footer,
   .practice-badge,
-  .word-bank,
   .toast,
   .completion {
     display: none !important;
@@ -845,5 +953,46 @@ button:disabled {
 
   .clue-list {
     grid-template-columns: 1fr 1fr;
+  }
+
+  body.printing-proof > :not(.completion) {
+    display: none !important;
+  }
+
+  body.printing-proof .completion {
+    display: block !important;
+    position: static;
+    padding: 0;
+    background: white;
+    backdrop-filter: none;
+  }
+
+  body.printing-proof .completion-card {
+    width: 100%;
+    margin: 0;
+    padding: 1.5cm;
+    border: 2px solid var(--ink);
+    box-shadow: none;
+  }
+
+  body.printing-proof .completion-actions,
+  body.printing-proof .proof-instruction,
+  body.printing-proof .student-field {
+    display: none !important;
+  }
+
+  body.printing-proof .student-name-print {
+    display: block;
+    margin: 1.1rem 0;
+    padding: 0.7rem;
+    color: var(--ink);
+    border-bottom: 1px solid var(--ink);
+    font-size: 1.05rem;
+    font-weight: 800;
+    text-align: left;
+  }
+
+  body.printing-proof .proof-summary {
+    grid-template-columns: 1fr 1fr 1.35fr;
   }
 }

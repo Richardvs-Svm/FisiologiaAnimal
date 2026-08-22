@@ -52,7 +52,14 @@
         >
           <span id="progressFill"></span>
         </div>
-        <p class="save-note"><span aria-hidden="true">●</span> El avance se guarda en este dispositivo</p>
+        <div class="progress-summary">
+          <div class="score-panel" aria-live="polite">
+            <span>Puntaje</span>
+            <strong id="scoreValue">100</strong>
+            <small>de 100</small>
+          </div>
+          <p class="save-note"><span aria-hidden="true">●</span> Guardado en este dispositivo</p>
+        </div>
       </section>
 
       <div class="workspace">
@@ -85,7 +92,7 @@
                 Pista conceptual
               </button>
               <button class="secondary-button" id="letterButton" type="button" disabled>
-                Revelar una letra
+                Revelar una letra · 0 disponibles
               </button>
               <button class="secondary-button" id="checkWordButton" type="button" disabled>
                 Comprobar palabra
@@ -105,7 +112,8 @@
           <div class="board-footer">
             <p>
               <strong>Consejo:</strong> toca dos veces una intersección para cambiar entre horizontal y
-              vertical. Escribe las respuestas sin espacios; los acentos son opcionales.
+              vertical. Los acentos son opcionales. Las pistas conceptuales son gratuitas; cada letra
+              revelada resta un punto y queda marcada con un punto rojo.
             </p>
             <button class="check-all-button" id="checkAllButton" type="button">
               Comprobar todo
@@ -132,10 +140,6 @@
             <div class="clue-list" id="downClues"></div>
           </section>
 
-          <details class="word-bank">
-            <summary>Banco de palabras</summary>
-            <div class="word-bank-list" id="wordBank"></div>
-          </details>
         </aside>
       </div>
     </main>
@@ -143,12 +147,40 @@
     <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
     <div class="completion" id="completion" role="dialog" aria-modal="true" aria-labelledby="completionTitle" hidden>
-      <div class="completion-card">
+      <div class="completion-card" id="proofCard">
         <div class="completion-mark" aria-hidden="true">✓</div>
         <p class="section-label">Actividad completada</p>
         <h2 id="completionTitle">¡Excelente trabajo!</h2>
-        <p>Has completado correctamente el crucigrama del Tema 1.</p>
-        <button class="primary-button" id="closeCompletion" type="button">Revisar mis respuestas</button>
+        <p class="completion-copy">Has completado correctamente el crucigrama del Tema 1.</p>
+
+        <label class="student-field" for="studentName">
+          Nombre del estudiante
+          <input id="studentName" type="text" maxlength="80" autocomplete="name" placeholder="Escribe tu nombre" />
+        </label>
+        <p class="student-name-print" id="studentNamePrint"></p>
+
+        <div class="proof-summary">
+          <div>
+            <span>Puntaje final</span>
+            <strong><span id="finalScore">100</span>/100</strong>
+          </div>
+          <div>
+            <span>Letras reveladas</span>
+            <strong id="finalRevealCount">0</strong>
+          </div>
+          <div>
+            <span>Completado</span>
+            <strong id="completedAt">—</strong>
+          </div>
+        </div>
+
+        <p class="proof-instruction">
+          Toma una captura de esta tarjeta o imprímela y guárdala como PDF para subirla a Google Classroom.
+        </p>
+        <div class="completion-actions">
+          <button class="primary-button" id="printProofButton" type="button">Imprimir o guardar comprobante</button>
+          <button class="secondary-button" id="closeCompletion" type="button">Revisar mis respuestas</button>
+        </div>
       </div>
     </div>
 
