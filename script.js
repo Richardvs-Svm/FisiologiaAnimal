@@ -62,7 +62,7 @@ const entries = [
     answer: "CONFORMISTA",
     displayAnswer: "CONFORMISTA",
     clue: "Tipo de animal que permite que una variable cambie de acuerdo con el ambiente.",
-    hint: "No mantiene constante esa variable cuando cambia el ambiente.",
+    hint: "No mantiene constante esa variable cuando cambia el ambiente. Empieza con C",
   },
   {
     id: "6-down",
@@ -141,7 +141,7 @@ const entries = [
     answer: "REGULADOR",
     displayAnswer: "REGULADOR",
     clue: "Tipo de animal que mantiene una variable dentro de límites a pesar de cambios externos.",
-    hint: "Compensa los cambios ambientales para sostener la variable en un intervalo.",
+    hint: "Compensa los cambios ambientales para sostener la variable en un intervalo, por ejemplo, la temperatura corporal",
   },
   {
     id: "12-down",
@@ -164,7 +164,7 @@ const entries = [
     displayAnswer: "REOSTASIS",
     clue:
       "Cambio regulado del nivel o intervalo defendido de una variable fisiológica. Ejemplo: fiebre durante una infección.",
-    hint: "El sistema conserva estabilidad, pero cambia temporalmente el nivel que defiende.",
+    hint: "El sistema conserva estabilidad, pero cambia el nivel que defiende.",
   },
   {
     id: "14-down",
