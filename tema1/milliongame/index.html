@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#071a3d" />
+    <meta
+      name="description"
+      content="Juego de comprensión sobre los principios generales de la fisiología animal."
+    />
+    <title>El Gran Reto Fisiológico · Principios generales</title>
+    <link rel="stylesheet" href="estilos-juego-millon-principios-fisiologia.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#inicio" aria-label="Ir al inicio">
+        <span class="brand-mark" aria-hidden="true">Φ</span>
+        <span>
+          <strong>El Gran Reto Fisiológico</strong>
+          <small>Principios generales de fisiología animal</small>
+        </span>
+      </a>
+      <div class="save-indicator" id="saveIndicator" role="status" aria-live="polite">
+        <span aria-hidden="true"></span>
+        Progreso local
+      </div>
+    </header>
+
+    <main id="app">
+      <section class="screen start-screen" id="startScreen" aria-labelledby="welcomeTitle">
+        <div class="hero-copy">
+          <p class="eyebrow">Reto de comprensión · Dos sesiones</p>
+          <h1 id="welcomeTitle">¿Quién quiere dominar la fisiología?</h1>
+          <p class="hero-intro">
+            Identifica el concepto, explica por qué y conquista el premio mayor. Los errores regresarán
+            al final para ayudarte a dominar cada idea.
+          </p>
+
+          <div class="feature-row" aria-label="Características de la actividad">
+            <article>
+              <strong>15</strong>
+              <span>preguntas por sesión</span>
+            </article>
+            <article>
+              <strong>2×</strong>
+              <span>confirmación de errores</span>
+            </article>
+            <article>
+              <strong>Auto</strong>
+              <span>guardado en este dispositivo</span>
+            </article>
+          </div>
+        </div>
+
+        <div class="start-card" id="startCard">
+          <p class="card-kicker">Antes de comenzar</p>
+          <h2>Registra tu nombre</h2>
+          <p>Así aparecerá en el comprobante que subirás a Classroom.</p>
+
+          <label class="name-field" for="studentName">
+            Nombre completo
+            <input
+              id="studentName"
+              name="studentName"
+              type="text"
+              maxlength="70"
+              autocomplete="name"
+              placeholder="Escribe tu nombre"
+            />
+          </label>
+          <p class="field-error" id="nameError" role="alert" hidden>Escribe tu nombre para continuar.</p>
+
+          <button class="primary-button wide" id="startButton" type="button">
+            Comenzar la sesión 1
+          </button>
+
+          <div class="resume-panel" id="resumePanel" hidden>
+            <div>
+              <span class="resume-label">Progreso encontrado</span>
+              <strong id="resumeDescription">Sesión en curso</strong>
+            </div>
+            <button class="primary-button" id="resumeButton" type="button">Continuar</button>
+          </div>
+
+          <button class="text-button" id="resetButton" type="button" hidden>
+            Borrar el progreso y comenzar de nuevo
+          </button>
+
+          <p class="privacy-note">
+            El progreso se guarda solamente en este navegador. Usa el mismo dispositivo para continuar otro día.
+          </p>
+        </div>
+      </section>
+
+      <section class="screen game-screen" id="gameScreen" aria-labelledby="gameQuestionTitle" hidden>
+        <div class="game-status">
+          <div>
+            <p class="eyebrow" id="sessionLabel">Sesión 1 de 2</p>
+            <h2 id="phaseTitle">Primera vuelta</h2>
+          </div>
+          <div class="status-meters">
+            <div>
+              <span>Avance</span>
+              <strong id="progressText">1 de 15</strong>
+            </div>
+            <div>
+              <span>Premio provisional</span>
+              <strong id="currentPrize">$0</strong>
+            </div>
+          </div>
+          <div class="progress-track" aria-hidden="true">
+            <span id="progressBar"></span>
+          </div>
+        </div>
+
+        <div class="game-layout">
+          <aside class="money-panel" aria-label="Escalera del premio">
+            <p class="panel-title">Camino al millón</p>
+            <ol class="money-ladder" id="moneyLadder" reversed></ol>
+          </aside>
+
+          <article class="question-card" id="questionCard">
+            <div class="question-meta">
+              <span class="phase-badge" id="phaseBadge">Primera vuelta</span>
+              <span id="questionCategory">Categoría</span>
+            </div>
+
+            <div class="scenario">
+              <p class="scenario-label">Situación</p>
+              <p class="scenario-text" id="questionScenario"></p>
+            </div>
+
+            <section class="question-part" id="part1Section" aria-labelledby="gameQuestionTitle">
+              <p class="part-label">Parte 1 · Elige el concepto</p>
+              <h2 id="gameQuestionTitle"></h2>
+              <div class="answer-grid" id="part1Options" role="group" aria-label="Opciones de la primera parte"></div>
+              <button class="primary-button answer-button" id="submitPart1" type="button" disabled>
+                Continuar al porqué
+              </button>
+            </section>
+
+            <section class="question-part why-part" id="part2Section" aria-labelledby="whyQuestionTitle" hidden>
+              <p class="part-label">Parte 2 · Explica por qué</p>
+              <p class="chosen-recap" id="chosenAnswerRecap"></p>
+              <h2 id="whyQuestionTitle"></h2>
+              <div class="answer-grid" id="part2Options" role="group" aria-label="Opciones de la segunda parte"></div>
+              <button class="primary-button answer-button" id="submitPart2" type="button" disabled>
+                Confirmar respuesta
+              </button>
+            </section>
+
+            <section class="feedback-panel" id="feedbackPanel" aria-live="polite" hidden>
+              <div class="feedback-heading">
+                <span class="feedback-icon" id="feedbackIcon" aria-hidden="true">✓</span>
+                <div>
+                  <p class="part-label" id="feedbackLabel">Resultado</p>
+                  <h2 id="feedbackTitle">¡Muy bien!</h2>
+                </div>
+              </div>
+              <div class="answer-summary" id="answerSummary"></div>
+              <p id="feedbackExplanation"></p>
+              <p class="review-advice" id="reviewAdvice"></p>
+              <button class="primary-button answer-button" id="nextButton" type="button">Siguiente pregunta</button>
+            </section>
+          </article>
+        </div>
+      </section>
+
+      <section class="screen result-screen" id="resultScreen" aria-labelledby="resultTitle" hidden>
+        <div class="celebration" aria-hidden="true">
+          <span>★</span><span>◆</span><span>★</span><span>●</span><span>◆</span>
+        </div>
+
+        <div class="result-intro">
+          <p class="eyebrow" id="resultEyebrow">Sesión completada</p>
+          <h1 id="resultTitle">¡Conceptos dominados!</h1>
+          <p id="resultLead">Corregiste y confirmaste todos los conceptos de esta sesión.</p>
+        </div>
+
+        <article class="proof-card" id="proofCard">
+          <div class="proof-topline">
+            <span>El Gran Reto Fisiológico</span>
+            <span id="proofSession">Sesión 1 de 2</span>
+          </div>
+          <p class="proof-label">Comprobante de dominio</p>
+          <h2 id="proofName">Nombre del estudiante</h2>
+          <p class="proof-copy">Completó 15 preguntas de dos partes y dominó todos los conceptos presentados.</p>
+
+          <div class="prize-display">
+            <span>Premio de primera vuelta</span>
+            <strong id="proofPrize">$1,000,000</strong>
+          </div>
+
+          <div class="proof-stats">
+            <div><span>Primera vuelta</span><strong id="proofScore">30/30</strong></div>
+            <div><span>Dominio final</span><strong>100%</strong></div>
+            <div><span>Repasos</span><strong id="proofReviews">0</strong></div>
+          </div>
+
+          <div class="proof-footer">
+            <span id="proofDate">Fecha</span>
+            <span id="proofCode">Código</span>
+          </div>
+        </article>
+
+        <div class="result-actions">
+          <button class="primary-button" id="downloadProofButton" type="button">Descargar comprobante</button>
+          <button class="secondary-button" id="printProofButton" type="button">Imprimir o guardar PDF</button>
+          <button class="gold-button" id="nextSessionButton" type="button">Comenzar la sesión 2</button>
+        </div>
+
+        <section class="feedback-summary" id="feedbackSummary">
+          <h2>Tu retroalimentación</h2>
+          <p id="summaryMessage"></p>
+          <ul id="adviceList"></ul>
+        </section>
+
+        <section class="classroom-reminder" id="classroomReminder">
+          <div aria-hidden="true">✓</div>
+          <div>
+            <h2 id="classroomTitle">Guarda este comprobante</h2>
+            <p id="classroomCopy">Al terminar la segunda sesión, sube los dos comprobantes diferentes a Classroom.</p>
+          </div>
+        </section>
+
+        <section class="past-proofs" id="pastProofs" hidden>
+          <h2>Comprobantes de este reto</h2>
+          <div id="pastProofList"></div>
+        </section>
+
+        <button class="text-button restart-link" id="newCycleButton" type="button" hidden>
+          Practicar otra vez con un nuevo ciclo
+        </button>
+      </section>
+
+      <section class="load-error" id="loadError" hidden>
+        <h1>No se pudo iniciar el juego</h1>
+        <p>
+          Comprueba que el archivo <strong>banco-preguntas-principios-fisiologia.js</strong> esté en la misma carpeta que esta página.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <span>Fisiología Animal · Principios generales</span>
+      <span>El progreso se conserva en este dispositivo.</span>
+    </footer>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+    <noscript>
+      <p class="load-error">Este juego necesita JavaScript para funcionar.</p>
+    </noscript>
+    <script src="banco-preguntas-principios-fisiologia.js"></script>
+    <script src="logica-juego-millon-principios-fisiologia.js"></script>
+  </body>
+</html>
