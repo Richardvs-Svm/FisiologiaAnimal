@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07172d">
+  <meta name="description" content="Juego de clasificación para repasar endotermia, ectotermia y patrones de temperatura corporal.">
+  <title>Clasificador térmico | Fisiología Animal</title>
+  <link rel="stylesheet" href="estilos-clasificador-termico.css">
+</head>
+<body>
+  <a class="salto" href="#contenido">Saltar al juego</a>
+
+  <div class="fondo fondo-uno" aria-hidden="true"></div>
+  <div class="fondo fondo-dos" aria-hidden="true"></div>
+
+  <div class="aplicacion">
+    <div class="curso-global" aria-label="Datos del curso">
+      <a class="enlace-guia" href="index.html">← Volver a la guía</a>
+      <span>Fisiología Animal</span>
+      <strong>2027-1</strong>
+      <span>Grupo 5417</span>
+    </div>
+
+    <header class="barra-superior">
+      <div class="marca">
+        <span class="marca-icono" aria-hidden="true">♨</span>
+        <div>
+          <strong>Clasificador térmico</strong>
+          <span>Fisiología Animal</span>
+        </div>
+      </div>
+
+      <div class="metricas" aria-label="Estado de la partida">
+        <div class="metrica">
+          <span>Nivel</span>
+          <strong id="metrica-nivel">1/3</strong>
+        </div>
+        <div class="metrica">
+          <span>Tiempo</span>
+          <strong id="metrica-tiempo">00:00</strong>
+        </div>
+        <div class="metrica">
+          <span>Clasificados</span>
+          <strong id="metrica-avance">0/6</strong>
+        </div>
+        <div class="metrica metrica-puntos">
+          <span>Puntos</span>
+          <strong id="metrica-puntos">500</strong>
+        </div>
+      </div>
+    </header>
+
+    <nav class="ruta-niveles" aria-label="Progreso de los niveles">
+      <div class="paso actual" data-paso="0">
+        <span class="paso-numero">1</span>
+        <span><strong>Fuente del calor</strong><small>Endo · ecto</small></span>
+      </div>
+      <div class="paso" data-paso="1">
+        <span class="paso-numero">2</span>
+        <span><strong>Estabilidad térmica</strong><small>Homeo · poikilo · hetero</small></span>
+      </div>
+      <div class="paso" data-paso="2">
+        <span class="paso-numero">3</span>
+        <span><strong>Los dos ejes</strong><small>Combinaciones</small></span>
+      </div>
+    </nav>
+
+    <main id="contenido">
+      <section class="pantalla pantalla-introduccion" id="pantalla-introduccion" aria-labelledby="intro-titulo">
+        <div class="intro-cabecera">
+          <p class="ceja" id="intro-ceja"></p>
+          <h1 id="intro-titulo"></h1>
+          <p class="intro-entrada" id="intro-entrada"></p>
+        </div>
+
+        <div class="conceptos" id="intro-conceptos"></div>
+
+        <div class="recordatorio" id="intro-recordatorio"></div>
+        <p class="pregunta-guia" id="intro-pregunta"></p>
+
+        <div class="identificacion-estudiante" id="identificacion-estudiante">
+          <label for="nombre-estudiante">Nombre completo</label>
+          <p>Se incluirá en la imagen que entregarás en Classroom.</p>
+          <input id="nombre-estudiante" type="text" maxlength="70" autocomplete="name" placeholder="Escribe tu nombre completo" aria-describedby="error-nombre" required>
+          <span class="error-campo" id="error-nombre" role="alert"></span>
+        </div>
+
+        <button class="boton boton-principal" id="boton-comenzar" type="button">
+          <span>Comenzar el nivel 1</span>
+          <span aria-hidden="true">→</span>
+        </button>
+      </section>
+
+      <section class="pantalla pantalla-juego" id="pantalla-juego" hidden aria-labelledby="juego-titulo">
+        <header class="cabecera-nivel">
+          <p class="ceja" id="juego-ceja"></p>
+          <h1 id="juego-titulo"></h1>
+          <p>Toca un animal y después la categoría que le corresponde. <strong>El tiempo comienza con tu primera selección.</strong></p>
+        </header>
+
+        <div class="categorias" id="categorias" aria-label="Categorías disponibles"></div>
+
+        <div class="banco-cabecera">
+          <h2>Animales para clasificar</h2>
+          <span id="nota-banco"></span>
+        </div>
+        <div class="animales" id="animales" aria-label="Animales de este nivel"></div>
+
+        <div class="retroalimentacion" id="retroalimentacion" role="status" aria-live="polite">
+          Selecciona el primer animal.
+        </div>
+      </section>
+
+      <section class="pantalla pantalla-pausa" id="pantalla-pausa" hidden aria-labelledby="pausa-titulo">
+        <div class="sello" id="pausa-sello" aria-hidden="true">✓</div>
+        <p class="ceja" id="pausa-ceja">Nivel completado · tiempo en pausa</p>
+        <h1 id="pausa-titulo">¡Clasificación correcta!</h1>
+        <p class="pausa-resumen" id="pausa-resumen"></p>
+
+        <div class="pausa-datos" id="pausa-datos">
+          <div><span>Tiempo</span><strong id="pausa-tiempo">00:00</strong></div>
+          <div><span>Errores</span><strong id="pausa-errores">0</strong></div>
+          <div><span>Puntos</span><strong id="pausa-puntos">0</strong></div>
+        </div>
+
+        <div class="pausa-animales" id="pausa-animales" aria-label="Animales que conviene practicar"></div>
+        <div class="pausa-aprendizaje" id="pausa-aprendizaje"></div>
+        <p class="pausa-pregunta" id="pausa-pregunta"></p>
+
+        <div class="acciones-pausa">
+          <button class="boton boton-principal" id="boton-practicar" type="button" hidden>
+            <span>Practicar mis errores</span>
+            <span aria-hidden="true">↻</span>
+          </button>
+          <button class="boton boton-secundario" id="boton-siguiente" type="button">
+            <span>Ir al siguiente nivel</span>
+            <span aria-hidden="true">→</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="pantalla pantalla-final" id="pantalla-final" hidden aria-labelledby="final-titulo">
+        <div class="trofeo" aria-hidden="true">♨</div>
+        <p class="ceja">Sesión terminada</p>
+        <h1 id="final-titulo">¡Misión térmica completada!</h1>
+        <p class="final-rango" id="final-rango"></p>
+
+        <div class="puntuacion-final">
+          <span>Puntuación total</span>
+          <strong id="final-puntos">0</strong>
+          <small>máximo posible: 4,000 puntos</small>
+        </div>
+
+        <div class="resumen-final" id="resumen-final"></div>
+        <div class="consejo-final" id="consejo-final"></div>
+
+        <div class="acciones-finales">
+          <button class="boton boton-principal" id="boton-comprobante" type="button">Descargar comprobante</button>
+          <button class="boton boton-secundario" id="boton-repetir" type="button">Jugar otra sesión</button>
+        </div>
+
+        <p class="nota-local">El récord y los animales recientes se guardan únicamente en este dispositivo.</p>
+      </section>
+    </main>
+
+    <footer>
+      <span>· Actividad de repaso ·</span>
+      <button id="boton-reiniciar" type="button">Reiniciar esta sesión</button>
+    </footer>
+  </div>
+
+  <canvas id="lienzo-comprobante" width="1200" height="630" hidden></canvas>
+  <script src="datos-clasificador-termico.js"></script>
+  <script src="logica-clasificador-termico.js"></script>
+</body>
+</html>
