@@ -98,7 +98,7 @@ Conviene conservar los asteriscos y las notas si se modifica el banco.
 
 ## Imágenes
 
-Las imágenes incluidas fueron generadas para esta actividad con herramientas de inteligencia artificial. Pueden sustituirse por fotografías propias o por imágenes con una licencia compatible.
+Las imágenes incluidas fueron generadas con ChatGPT v5.6. Pueden sustituirse por fotografías propias o por imágenes con una licencia compatible.
 
 ## Licencia
 
