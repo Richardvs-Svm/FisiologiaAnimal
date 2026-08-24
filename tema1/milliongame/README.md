@@ -1,16 +1,14 @@
 # El Gran Reto Fisiológico — Principios generales
 
-Juego web para estudiantes de Fisiología Animal. La actividad practica la comprensión de los principios generales mediante preguntas de dos partes: primero se identifica o clasifica un concepto y después se explica por qué.
+Juego web para estudiantes de Fisiología Animal. Planeado originalmente para estudiantes del curso de Fisiología Animal 2027-1 G5417. La actividad practica la comprensión de los principios generales mediante preguntas de dos partes: primero se identifica o clasifica un concepto y después se explica por qué.
 
 ## Archivo que deben abrir los estudiantes
 
-`juego-millon-principios-fisiologia.html`
-
-No se utiliza `index.html` porque ese nombre queda reservado para la futura página que reunirá todos los juegos del curso.
+`index.html`
 
 ## Archivos de la actividad
 
-- `juego-millon-principios-fisiologia.html`: página principal del juego.
+- `index.html`: página principal del juego.
 - `estilos-juego-millon-principios-fisiologia.css`: presentación visual y adaptación para teléfonos.
 - `logica-juego-millon-principios-fisiologia.js`: selección de preguntas, puntuación, refuerzo, guardado y comprobantes.
 - `banco-preguntas-principios-fisiologia.js`: banco editable de 40 preguntas.
