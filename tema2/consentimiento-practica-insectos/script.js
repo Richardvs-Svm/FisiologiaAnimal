@@ -1,6 +1,6 @@
 const CONFIG = {
   // Pega aquí la URL que termina en /exec después de desplegar Code.gs como aplicación web.
-  appsScriptUrl: "https://script.google.com/macros/s/AKfycby0zmFqAShtIqf8LC0cTTIXDSxhhU1622G0wjk-TpWhIjIB0MedpDhKK4FahIt_qtXC/exec",
+  appsScriptUrl: "https://script.google.com/macros/s/AKfycbxDDfbR9uRGXoxZJcGb8MA4TDIOZQ_aCBSeLsqveb4tDEUv_wlMnukZrAV3-P9Pja4U/exec",
   course: "Fisiología de Animales",
   semester: "2027-1",
   group: "5417",
