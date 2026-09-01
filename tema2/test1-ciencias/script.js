@@ -1,7 +1,7 @@
 const CONFIG = {
   // Replace this with the /exec URL from the deployment created in the
   // spreadsheet-bound Apps Script project.
-  appsScriptUrl: "https://script.google.com/macros/s/AKfycbxR0jjB30rKbFC85Lj4Q9btr0CPM0K2pcsHhQRHsdQVAXzcyKUnyXK4l4JVbMWqZWa5tg/exec",
+  appsScriptUrl: "https://script.google.com/a/macros/ciencias.unam.mx/s/AKfycbxR0jjB30rKbFC85Lj4Q9btr0CPM0K2pcsHhQRHsdQVAXzcyKUnyXK4l4JVbMWqZWa5tg/exec",
 };
 
 const form = document.querySelector("#testForm");
