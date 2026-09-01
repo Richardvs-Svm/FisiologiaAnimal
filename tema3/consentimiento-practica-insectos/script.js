@@ -1,6 +1,6 @@
 const CONFIG = {
   // Pega aquí la URL /exec del Apps Script vinculado a la hoja de cálculo.
-  appsScriptUrl: "https://script.google.com/macros/s/AKfycbxx9Ld5ILnlfWbNv_lBdUevvjg5MvFImmjKxpmC-2uPmQAejVf_5rl7lb0Smv-cSCiDJw/exec",
+  appsScriptUrl: "https://script.google.com/macros/s/AKfycbw9iXRSgOi-Vn76vWtp9WP6T5BTBO1eMw4RDH_L3VqFjwOjBwlkvuJaQuoQBCMokQ/exec",
 };
 
 const form = document.querySelector("#consentForm");
