@@ -1,6 +1,6 @@
 const CONFIG = {
   // Pega aquí la URL /exec del Apps Script vinculado a la hoja de cálculo.
-  appsScriptUrl: "https://script.google.com/a/macros/ciencias.unam.mx/s/AKfycbyDxQnzLEtlpgllBjNXcTX288Rkuiq6PJ3UhiWgUR5oHiTKlsDFHUSXk0YAhg69L5PYjw/exec",
+  appsScriptUrl: "https://script.google.com/a/macros/ciencias.unam.mx/s/AKfycby6tIvH65swSU60kJI381m9S92YZRSPZGES1bCuiCTp2Bv8gddKT3LkDr50sZU9GDqyVw/exec",
 };
 
 const form = document.querySelector("#consentForm");
