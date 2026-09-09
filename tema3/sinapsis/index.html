@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#092f5d">
+  <meta name="description" content="Actividad interactiva para reconstruir una sinapsis y ordenar los acontecimientos de la transmisión sináptica.">
+  <title>Sinapsis en secuencia · Fisiología Animal</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="course-bar">
+    <div>
+      <span class="course-kicker">Fisiología Animal 2027-1</span>
+      <strong>Grupo 5417</strong>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <div class="game-heading">
+      <div class="game-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48"><circle cx="13" cy="15" r="6"/><circle cx="35" cy="33" r="6"/><path d="M18 18l12 11M11 23l2 10M35 15l-2 10"/></svg>
+      </div>
+      <div>
+        <p class="eyebrow">Tema 3 · Comunicación neuronal</p>
+        <h1>Sinapsis en secuencia</h1>
+      </div>
+    </div>
+
+    <ol class="screen-switcher game-progress" aria-label="Progreso de la actividad">
+      <li class="screen-tab is-active" data-progress="welcome"><span>1</span><b>Inicio</b></li>
+      <li class="screen-tab" data-progress="puzzle"><span>2</span><b>Rompecabezas</b></li>
+      <li class="screen-tab" data-progress="sequence"><span>3</span><b>Secuencia</b></li>
+      <li class="screen-tab" data-progress="result"><span>4</span><b>Comprobante</b></li>
+    </ol>
+
+    <section class="screen is-active" data-panel="welcome">
+      <div class="welcome-grid">
+        <article class="welcome-copy">
+          <p class="level-pill">Actividad en dos etapas</p>
+          <h2>De la imagen al proceso</h2>
+          <p class="lead">Reconstruye la sinapsis y después ordena los acontecimientos que convierten una señal eléctrica en una respuesta de la fibra muscular.</p>
+
+          <label class="name-field" for="student-name">
+            <span>Nombre completo del estudiante</span>
+            <input id="student-name" autocomplete="name" placeholder="Escribe tu nombre completo" aria-describedby="name-error" required>
+          </label>
+          <p class="name-error" id="name-error" role="alert" hidden>Escribe tu nombre completo para comenzar.</p>
+
+          <div class="mission-strip" aria-label="Resumen de la actividad">
+            <div><b>01</b><span>Reconstruye<br>la imagen</span></div>
+            <i aria-hidden="true">→</i>
+            <div><b>02</b><span>Ordena<br>8 acontecimientos</span></div>
+            <i aria-hidden="true">→</i>
+            <div><b>03</b><span>Descarga tu<br>comprobante</span></div>
+          </div>
+
+          <button class="primary-button" id="start-button" type="button">Comenzar actividad <span>→</span></button>
+        </article>
+
+        <aside class="hero-card" aria-label="Vista previa de una sinapsis">
+          <div class="hero-orbit hero-orbit-one"></div>
+          <div class="hero-orbit hero-orbit-two"></div>
+          <div class="hero-image-frame">
+            <img src="imagenes/sinapsis-partes.png" alt="Diagrama numerado de una sinapsis colinérgica">
+          </div>
+          <div class="hero-caption">
+            <strong>8 acontecimientos</strong>
+            <span>Una sola secuencia</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="screen" data-panel="puzzle" hidden>
+      <div class="stage-header">
+        <div>
+          <p class="eyebrow">Etapa 1 de 2</p>
+          <h2>Reconstruye la sinapsis</h2>
+          <p>Toca una pieza y después otra para intercambiarlas.</p>
+        </div>
+        <div class="timer-card"><span>Tiempo</span><strong id="puzzle-timer">00:00</strong></div>
+      </div>
+
+      <div class="puzzle-layout">
+        <div class="puzzle-column">
+          <div class="puzzle-board" id="puzzle-board" aria-label="Rompecabezas de nueve piezas"></div>
+          <p class="selection-status" id="selection-status" aria-live="polite">Selecciona la primera pieza.</p>
+        </div>
+
+        <aside class="play-panel">
+          <div class="progress-card">
+            <div><span>Piezas en su lugar</span><strong id="piece-progress">0 de 9</strong></div>
+            <div class="progress-track"><span id="progress-fill"></span></div>
+          </div>
+
+          <div class="instruction-card">
+            <span class="instruction-icon" aria-hidden="true">↔</span>
+            <div><strong>Dos toques, un intercambio</strong><p>No necesitas arrastrar. Funciona igual con ratón o pantalla táctil.</p></div>
+          </div>
+
+          <div class="stat-row"><span>Movimientos</span><strong id="move-count">0</strong></div>
+          <button class="secondary-button" id="shuffle-button" type="button">Mezclar otra vez</button>
+
+          <div class="stage-complete" id="puzzle-complete" hidden>
+            <span class="stage-complete-icon" aria-hidden="true">✓</span>
+            <div><strong>¡Imagen reconstruida!</strong><p>Cuando estés listo, continúa con la secuencia.</p></div>
+          </div>
+          <button class="primary-button full-width" id="continue-sequence" type="button" disabled>Ordenar el proceso <span>→</span></button>
+        </aside>
+      </div>
+    </section>
+
+    <section class="screen" data-panel="sequence" hidden>
+      <div class="stage-header sequence-header">
+        <div>
+          <p class="eyebrow">Etapa 2 de 2</p>
+          <h2>Ordena el proceso</h2>
+          <p>Coloca primero el acontecimiento que inicia la transmisión sináptica. <button class="inline-diagram-link" type="button" data-open-diagram>Ver imagen <span aria-hidden="true">↗</span></button></p>
+        </div>
+        <div class="timer-card"><span>Tiempo total</span><strong id="total-timer">00:00</strong></div>
+      </div>
+
+      <div class="sequence-layout">
+        <section class="sequence-workspace" aria-labelledby="sequence-title">
+          <div class="sequence-toolbar">
+            <div>
+              <span class="small-label">Tu secuencia</span>
+              <h3 id="sequence-title">Toca dos tarjetas para intercambiarlas</h3>
+            </div>
+          </div>
+          <ol class="sequence-list" id="sequence-list"></ol>
+        </section>
+
+        <aside class="sequence-aside">
+          <button class="diagram-button" type="button" data-open-diagram>
+            <span class="diagram-button-icon" aria-hidden="true">⌕</span>
+            <span><strong>Ver el diagrama</strong><small>Consulta los números mientras ordenas.</small></span>
+          </button>
+          <div class="concept-card">
+            <div class="concept-icon" aria-hidden="true">Ca<sup>2+</sup></div>
+            <h3>Sigue la causa y el efecto</h3>
+            <p>Busca qué acontecimiento provoca al siguiente. Los números del diagrama te sirven como evidencia.</p>
+          </div>
+          <p class="validation-message" id="validation-message" role="alert" hidden></p>
+          <button class="primary-button full-width" id="check-sequence" type="button">Revisar mi secuencia <span>→</span></button>
+          <button class="secondary-button full-width" id="reset-sequence" type="button">Mezclar las tarjetas</button>
+          <p class="lock-note"><span aria-hidden="true">🔒</span> El comprobante permanece bloqueado mientras haya acontecimientos fuera de lugar.</p>
+        </aside>
+      </div>
+    </section>
+
+    <div class="diagram-overlay" id="diagram-overlay" role="dialog" aria-modal="true" aria-labelledby="diagram-title" hidden>
+      <div class="diagram-backdrop" data-close-diagram></div>
+      <section class="diagram-dialog">
+        <div class="diagram-dialog-head">
+          <div>
+            <p class="eyebrow">Material de consulta</p>
+            <h2 id="diagram-title">Sinapsis numerada</h2>
+          </div>
+          <button class="diagram-close" id="close-diagram" type="button" aria-label="Cerrar el diagrama">×</button>
+        </div>
+        <div class="diagram-image-wrap">
+          <img src="imagenes/sinapsis-partes.png" alt="Diagrama numerado del proceso de transmisión en una sinapsis colinérgica">
+        </div>
+        <p class="diagram-help">Observa la dirección de las flechas y relaciona cada número con el acontecimiento que representa.</p>
+      </section>
+    </div>
+
+    <section class="screen result-screen" data-panel="result" hidden>
+      <div class="result-layout">
+        <article class="result-card" id="result-card">
+          <div class="result-ribbon">Comprobante de actividad</div>
+          <div class="result-course">Fisiología Animal 2027-1 · Grupo 5417</div>
+          <div class="result-badge" aria-hidden="true">✓</div>
+          <p class="eyebrow">Secuencia completada</p>
+          <h2>¡Sinapsis reconstruida!</h2>
+          <p class="result-name" id="result-name">Estudiante</p>
+
+          <div class="result-summary">
+            <div><strong>9/9</strong><span>Piezas</span></div>
+            <div class="result-center"><strong>8/8</strong><span>Acontecimientos</span></div>
+            <div><strong id="result-time">00:00</strong><span>Tiempo</span></div>
+          </div>
+
+          <p class="success-copy"><strong>¡Excelente!</strong> Reconstruiste la imagen y ordenaste correctamente todo el proceso de transmisión sináptica.</p>
+          <div class="proof-meta"><span>Sesión</span><strong id="result-session">SIN-00000000</strong></div>
+          <div class="proof-footer"><span>Actividad completada sin errores pendientes</span><strong id="result-date"></strong></div>
+        </article>
+
+        <aside class="result-actions">
+          <p class="level-pill">Listo para Classroom</p>
+          <h3>Tu comprobante está desbloqueado</h3>
+          <p>Descárgalo como imagen y súbelo a la tarea correspondiente en Google Classroom.</p>
+          <button class="primary-button full-width" id="proof-button" type="button">Descargar comprobante</button>
+          <button class="secondary-button full-width" id="play-again" type="button">Jugar otra vez</button>
+          <p class="download-note" id="download-status" aria-live="polite"></p>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <script src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#062f67">
+  <meta name="description" content="Rompecabezas interactivo para reconocer las partes de una neurona.">
+  <title>Reconstruye la neurona · Fisiología Animal</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="course-bar">
+    <div>
+      <span class="course-kicker">Fisiología Animal 2027-1</span>
+      <strong>Grupo 5417</strong>
+    </div>
+    <button class="reset-button" id="reset-game" type="button" hidden>Reiniciar actividad</button>
+  </header>
+
+  <main class="app-shell">
+    <div class="game-heading">
+      <div class="game-mark" aria-hidden="true">⚡</div>
+      <div>
+        <p class="eyebrow">Tema 3 · Sistema nervioso</p>
+        <h1>Reconstruye la neurona</h1>
+      </div>
+    </div>
+
+    <ol class="journey" aria-label="Progreso de la actividad">
+      <li class="journey-step is-current" data-step="welcome"><span>1</span><strong>Inicio</strong></li>
+      <li class="journey-step" data-step="puzzle"><span>2</span><strong>Rompecabezas</strong></li>
+      <li class="journey-step" data-step="labels"><span>3</span><strong>Etiquetas</strong></li>
+      <li class="journey-step" data-step="result"><span>4</span><strong>Resultado</strong></li>
+    </ol>
+
+    <section class="screen" id="screen-welcome" data-panel="welcome">
+      <div class="welcome-grid">
+        <article class="welcome-copy">
+          <p class="level-pill">Actividad en dos etapas</p>
+          <h2>Observa, reconstruye e identifica</h2>
+          <p class="lead">Primero ordenarás las piezas de la neurona. Después escribirás el nombre de cada estructura siguiendo los números.</p>
+
+          <div class="resume-banner" id="resume-banner" hidden>
+            <div>
+              <strong>Encontramos una actividad guardada</strong>
+              <span id="resume-description">Puedes continuar donde te quedaste.</span>
+            </div>
+            <button class="secondary-button" id="resume-game" type="button">Continuar</button>
+          </div>
+
+          <label class="name-field" for="student-name">
+            <span>Nombre del estudiante</span>
+            <input id="student-name" autocomplete="name" placeholder="Escribe tu nombre completo" maxlength="80" required>
+          </label>
+          <p class="field-error" id="name-error" role="alert" hidden>Escribe tu nombre completo para comenzar.</p>
+
+          <ol class="steps-list">
+            <li><span>01</span><p>Toca una pieza y después otra para intercambiarlas.</p></li>
+            <li><span>02</span><p>Completa la imagen antes de pasar a las etiquetas.</p></li>
+            <li><span>03</span><p>Escribe las doce estructuras y revisa tus respuestas.</p></li>
+          </ol>
+
+          <button class="primary-button" id="start-game" type="button">Comenzar una actividad nueva <span>→</span></button>
+        </article>
+
+        <aside class="welcome-art" aria-label="Vista previa de la neurona">
+          <div class="glow"></div>
+          <img src="imagenes/neurona-numerada-1-a-12-v4.png" alt="Neurona numerada del 1 al 12">
+          <div class="art-caption">
+            <strong>12 estructuras</strong>
+            <span>Una neurona completa</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="screen" id="screen-puzzle" data-panel="puzzle" hidden>
+      <div class="stage-header">
+        <div>
+          <p class="eyebrow">Etapa 1 de 2</p>
+          <h2>Ordena las piezas</h2>
+          <p>Toca dos piezas para intercambiar sus posiciones.</p>
+        </div>
+        <div class="timer-card" aria-label="Tiempo del rompecabezas">
+          <span>Tiempo</span>
+          <strong id="puzzle-timer">00:00</strong>
+        </div>
+      </div>
+
+      <div class="play-layout">
+        <div class="puzzle-wrap">
+          <div class="puzzle-board" id="puzzle-board" aria-label="Rompecabezas de doce piezas"></div>
+          <p class="selection-status" id="selection-status" aria-live="polite">Selecciona la primera pieza.</p>
+        </div>
+
+        <aside class="play-panel">
+          <div class="mini-progress">
+            <div class="progress-copy"><span>Piezas en posición</span><strong id="piece-progress">0 de 12</strong></div>
+            <div class="progress-track"><span id="progress-fill"></span></div>
+          </div>
+
+          <div class="instruction-card">
+            <span class="instruction-icon" aria-hidden="true">↔</span>
+            <div><strong>Intercambia, no arrastres</strong><p>Funciona igual con ratón, pantalla táctil o teclado.</p></div>
+          </div>
+
+          <div class="stat-row">
+            <span>Movimientos</span>
+            <strong id="move-count">00</strong>
+          </div>
+
+          <button class="secondary-button" id="shuffle-button" type="button">Mezclar de nuevo</button>
+
+          <div class="success-banner" id="puzzle-success" hidden>
+            <span aria-hidden="true">✓</span>
+            <div><strong>¡Rompecabezas completo!</strong><p>Ya puedes identificar las estructuras.</p></div>
+          </div>
+
+          <button class="primary-button" id="continue-labels" type="button" disabled>Continuar con las etiquetas <span>→</span></button>
+        </aside>
+      </div>
+    </section>
+
+    <section class="screen" id="screen-labels" data-panel="labels" hidden>
+      <div class="stage-header">
+        <div>
+          <p class="eyebrow">Etapa 2 de 2</p>
+          <h2>Identifica las estructuras</h2>
+          <p>Usa los números de la ilustración como guía.</p>
+        </div>
+        <div class="label-stats">
+          <div class="timer-card">
+            <span>Identificadas</span>
+            <strong id="answer-count">0 / 12</strong>
+          </div>
+          <div class="timer-card score-card">
+            <span>Puntuación</span>
+            <strong><b id="live-score">100</b> pts</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="label-layout">
+        <div class="label-image-card">
+          <img src="imagenes/neurona-numerada-1-a-12-v4.png" alt="Neurona con doce estructuras numeradas">
+          <div class="zoom-note">Puedes ampliar la imagen con dos dedos.</div>
+        </div>
+
+        <form class="label-form" id="label-form" novalidate>
+          <div class="label-form-heading">
+            <div><span class="small-label">Tus respuestas</span><h3>Partes de la neurona</h3></div>
+            <span class="autosave">● Guardado local</span>
+          </div>
+          <div class="reveal-legend"><i aria-hidden="true"></i><span>Una marca roja indica una letra revelada. Cada letra resta 1 punto.</span></div>
+          <div class="answer-grid" id="answer-grid"></div>
+          <p class="validation-message" id="validation-message" role="alert" hidden></p>
+          <button class="primary-button full-width" id="review-answers" type="submit">Revisar respuestas <span>→</span></button>
+        </form>
+      </div>
+    </section>
+
+    <section class="screen" id="screen-result" data-panel="result" hidden>
+      <div class="result-layout">
+        <article class="result-card" id="result-card">
+          <div class="result-course">Fisiología Animal 2027-1 · Grupo 5417</div>
+          <div class="result-badge" aria-hidden="true">✓</div>
+          <p class="eyebrow">Actividad completada</p>
+          <h2>¡Neurona reconstruida!</h2>
+          <p class="result-name" id="result-name">Estudiante</p>
+
+          <div class="score-ring">
+            <strong id="result-score">100</strong>
+            <span>puntos</span>
+          </div>
+
+          <div class="result-stats result-stats-final">
+            <div><span>Rompecabezas</span><strong id="result-puzzle-time">00:00</strong></div>
+            <div><span>Etiquetas</span><strong id="result-label-time">00:00</strong></div>
+            <div><span>Estructuras</span><strong>12 / 12</strong></div>
+            <div><span>Letras reveladas</span><strong id="result-reveals">0</strong></div>
+          </div>
+
+          <p class="feedback" id="result-feedback" aria-live="polite"><strong>¡Excelente!</strong> Identificaste correctamente las 12 estructuras.</p>
+          <div class="proof-footer"><span id="result-session">Sesión</span><strong id="result-date">Fecha</strong></div>
+        </article>
+
+        <aside class="result-actions">
+          <p class="level-pill">Comprobante para Classroom</p>
+          <h3>Guarda tu resultado</h3>
+          <p>Descarga la tarjeta como imagen y súbela a Classroom como evidencia de tu actividad.</p>
+          <button class="primary-button" type="button" id="proof-button">Descargar comprobante</button>
+          <button class="secondary-button" type="button" id="play-again">Jugar de nuevo</button>
+          <p class="download-status" id="download-status" role="status" aria-live="polite"></p>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <script src="game.js"></script>
+</body>
+</html>
